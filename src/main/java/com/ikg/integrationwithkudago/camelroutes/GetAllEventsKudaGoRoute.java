@@ -4,7 +4,6 @@ import static org.springframework.http.HttpMethod.GET;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.jackson.ListJacksonDataFormat;
 
 /*****
 
@@ -22,13 +21,16 @@ public class GetAllEventsKudaGoRoute extends RouteBuilder {
             .setHeader(Exchange.HTTP_METHOD).constant(GET)
             .routeId("getAllEventsKudago")
             .log("Http Route started: \n ${headers}\n ${body} \n" + request)
-            .to("direct:countinue").log("HTTP OK");
+            .to("direct:countinueGetAllEventsKudago")
+            .log("HTTP OK");
 
-        from("direct:countinue")
-            .routeId("CONTINUE")
+        from("direct:countinueGetAllEventsKudago")
+            .routeId("CONTINUE >>> GetAllEventsKudago")
+            .setHeader(Exchange.HTTP_QUERY, constant("lang=en&order_by=id&fields="))
+            .log("HTTP_QUERY >>>>>>>>>> \n ${headers}\n ")
             .to("https://" + request)
             .log(LoggingLevel.INFO, "Response :  \n ${headers}\n ${body} \n")
-            .log("CONTINUE OK");
+            .log("CONTINUE OK ");
 
     }
 }

@@ -1,6 +1,5 @@
 package com.ikg.integrationwithkudago.controllers;
 
-import com.ikg.integrationwithkudago.camelroutes.GetAllEventsKudaGoRoute;
 import com.ikg.integrationwithkudago.services.GetAllEventsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
