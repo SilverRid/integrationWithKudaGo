@@ -3,7 +3,11 @@ package com.ikg.integrationwithkudago.camelroutes;
 import static org.springframework.http.HttpMethod.GET;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.Message;
+import org.apache.camel.builder.DeadLetterChannelBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.support.DefaultMessage;
+import org.springframework.http.HttpStatus;
 
 /*****
 
@@ -26,11 +30,23 @@ public class GetAllEventsKudaGoRoute extends RouteBuilder {
 
         from("direct:countinueGetAllEventsKudago")
             .routeId("CONTINUE >>> GetAllEventsKudago")
-//            .setHeader(Exchange.HTTP_QUERY, constant("lang=&fields=&expand=&order_by=&text_format=&ids=&location=&actual_since=1444385206&actual_until=&is_free=&categories=cinema&lon=&lat=&radius="))
             .log("HTTP_QUERY >>>>>>>>>> \n ${headers}\n ")
-            .to("https://" + REQUEST)
+            .to("https://" + REQUEST + "?throwExceptionOnFailure=false")
+            .process(this::checkRequeest)
             .log(LoggingLevel.INFO, "Response :  \n ${headers}\n ${body} \n")
             .log("CONTINUE OK ");
 
+    }
+
+    private void checkRequeest(final Exchange exchange) {
+        Message message = exchange.getMessage();
+        String statusResponce = String.valueOf(message.getHeader("CamelHttpResponseCode"));
+
+        if (!statusResponce.equals("200")) {
+            Message newMessage = new DefaultMessage(exchange);
+            newMessage.setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
+            newMessage.setBody("Wrong response!!!!");
+            exchange.setMessage(newMessage);
+        }
     }
 }
