@@ -12,7 +12,7 @@ import org.apache.camel.builder.RouteBuilder;
 
  */
 public class GetAllEventsKudaGoRoute extends RouteBuilder {
-    private String request = "kudago.com/public-api/v1.4/event-categories";
+    private final String REQUEST = "kudago.com/public-api/v1.4/events/";
 
     @Override
     public void configure() throws Exception {
@@ -20,15 +20,15 @@ public class GetAllEventsKudaGoRoute extends RouteBuilder {
         from("direct:getAllEventsKudago")
             .setHeader(Exchange.HTTP_METHOD).constant(GET)
             .routeId("getAllEventsKudago")
-            .log("Http Route started: \n ${headers}\n ${body} \n" + request)
+            .log("Http Route started: \n ${headers}\n ${body} \n" + REQUEST)
             .to("direct:countinueGetAllEventsKudago")
             .log("HTTP OK");
 
         from("direct:countinueGetAllEventsKudago")
             .routeId("CONTINUE >>> GetAllEventsKudago")
-            .setHeader(Exchange.HTTP_QUERY, constant("lang=en&order_by=id&fields="))
+//            .setHeader(Exchange.HTTP_QUERY, constant("lang=&fields=&expand=&order_by=&text_format=&ids=&location=&actual_since=1444385206&actual_until=&is_free=&categories=cinema&lon=&lat=&radius="))
             .log("HTTP_QUERY >>>>>>>>>> \n ${headers}\n ")
-            .to("https://" + request)
+            .to("https://" + REQUEST)
             .log(LoggingLevel.INFO, "Response :  \n ${headers}\n ${body} \n")
             .log("CONTINUE OK ");
 
