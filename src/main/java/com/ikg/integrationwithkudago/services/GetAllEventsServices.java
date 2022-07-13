@@ -28,9 +28,13 @@ public class GetAllEventsServices {
     MyDb myDb;
 
     public void getAllEventsKudaGo(String categories) throws Exception {
-        StringBuilder constructorGet =
-            new StringBuilder("lang=&fields=&expand=&order_by=&text_format=&ids=&location=msk&actual_since=" +
-                "1657710784&actual_until=&is_free=&categories=");
+        long currentTimeSec = System.currentTimeMillis() / 1000;
+        StringBuilder constructorGet = new StringBuilder();
+
+        constructorGet.append("lang=&fields=&expand=&order_by=&text_format=&ids=&location=msk&actual_since=")
+            .append(currentTimeSec)
+            .append("&actual_until=&is_free=&categories=");
+
         if (!categories.isEmpty()) {
             constructorGet.append(categories).append("&lon=&lat=&radius=");
         } else {
