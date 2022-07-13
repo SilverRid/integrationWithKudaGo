@@ -5,6 +5,26 @@
     <title>Events</title>
 </head>
 <body>
-This events!!!
+<form method="POST" th:action="@{/orders}" th:object="${myDb}">
+    <h1>Events!</h1>
+
+    <ul>
+        <li th:each="allEvent : ${allEventsList}">
+            Количество найденых событий: <span th:text="${allEvent.count}">Количество найденых</span><br>
+            <span th:text="${allEvent.next}">Следующий</span><br>
+            <span th:text="${allEvent.previous}">Предыдущий</span><br>
+            <ul>
+                <li th:each="result : ${allEvent.results}">
+                    id<span th:text="${result.id}">Результат</span>:
+                    <span th:text="${result.title}">Результат</span><br></li>
+            </ul>
+        </li>
+
+    </ul>
+
+<!--    <h3>Deliver my taco masterpieces to...</h3>-->
+
+<!--    <input type="submit" value="Submit Order"/>-->
+</form>
 </body>
 </html>
