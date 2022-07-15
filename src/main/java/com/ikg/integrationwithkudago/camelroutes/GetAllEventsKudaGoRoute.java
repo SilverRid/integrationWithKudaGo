@@ -1,25 +1,20 @@
 package com.ikg.integrationwithkudago.camelroutes;
 
-import java.util.ArrayList;
 import static org.springframework.http.HttpMethod.GET;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ikg.integrationwithkudago.entity.Event;
 import com.ikg.integrationwithkudago.entity.AllEvents;
-import com.ikg.integrationwithkudago.services.GetAllEventsServices;
 import com.ikg.integrationwithkudago.testdb.MyDb;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
-import org.apache.camel.component.jackson.ListJacksonDataFormat;
 import org.apache.camel.support.DefaultMessage;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 /*****
 

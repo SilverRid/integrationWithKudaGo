@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
  */
 @Service
-public class GetAllEventsServices {
+public class GetAllServicesKudaGO implements GetAllServicesKudaGoIMPL{
     @Autowired
     ProducerTemplate template;
 
@@ -44,6 +44,11 @@ public class GetAllEventsServices {
         template.sendBodyAndHeader("direct:getAllEventsKudago", "New request", Exchange.HTTP_QUERY,
             constructorGet);
 
+    }
+
+    @Override
+    public void getAllCategoriesKudaGo() throws Exception {
+        template.sendBody("direct:getAllCategoriesKudaGoRoute", "Get ALL Categories");
     }
 
 }
