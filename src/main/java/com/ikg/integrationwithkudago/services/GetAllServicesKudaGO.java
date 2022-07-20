@@ -1,10 +1,7 @@
 package com.ikg.integrationwithkudago.services;
 
-import com.ikg.integrationwithkudago.camelroutes.GetAllEventsKudaGoRoute;
-import com.ikg.integrationwithkudago.entity.AllEvents;
+import com.ikg.integrationwithkudago.repository.RepositotyCategories;
 import com.ikg.integrationwithkudago.testdb.MyDb;
-import org.apache.camel.CamelContext;
-import org.apache.camel.ConsumerTemplate;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +19,7 @@ public class GetAllServicesKudaGO implements GetAllServicesKudaGoIMPL{
     ProducerTemplate template;
 
     @Autowired
-    CamelContext context;
+    RepositotyCategories repositotyCategories;
 
     @Autowired
     MyDb myDb;
@@ -48,7 +45,10 @@ public class GetAllServicesKudaGO implements GetAllServicesKudaGoIMPL{
 
     @Override
     public void getAllCategoriesKudaGo() throws Exception {
-        template.sendBody("direct:getAllCategoriesKudaGoRoute", "Get ALL Categories");
+        if (repositotyCategories.count() == 0) {
+            template.sendBody("direct:getAllCategoriesKudaGoRoute", "Get ALL Categories");
+        }
+
     }
 
 }
